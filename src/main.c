@@ -1,5 +1,5 @@
-#define GLAD_GLES1_IMPLEMENTATION
-#include <glad/gles1.h>
+#define GLAD_GLES2_IMPLEMENTATION
+#include <glad/gles2.h>
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
@@ -14,8 +14,8 @@ int main(int argc, char** argv) {
   }
 
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
   SDL_Window* window = SDL_CreateWindow("axo", 640, 480, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
   if (!window) {
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  int version = gladLoadGLES1((GLADloadfunc)SDL_GL_GetProcAddress);
+  int version = gladLoadGLES2((GLADloadfunc)SDL_GL_GetProcAddress);
   if (!version) {
     SDL_Log("failed to load gl es");
     SDL_GL_DestroyContext(context);
@@ -41,7 +41,15 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  SDL_Log("loaded gl es %d.%d", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
+  SDL_Log("gl es vendor: %s", glGetString(GL_VENDOR));
+  SDL_Log("gl es renderer: %s", glGetString(GL_RENDERER));
+  SDL_Log("gl es version: %s", glGetString(GL_VERSION));
+
+  if (!SDL_GL_SetSwapInterval(1)) {
+    SDL_Log("failed to set vsync: %s", SDL_GetError());
+  } else {
+    SDL_Log("vsync enabled");
+  }
 
   bool running = true;
   while (running) {
@@ -56,6 +64,7 @@ int main(int argc, char** argv) {
     glClear(GL_COLOR_BUFFER_BIT);
 
     SDL_GL_SwapWindow(window);
+    SDL_Delay(1);
   }
 
   SDL_GL_DestroyContext(context);

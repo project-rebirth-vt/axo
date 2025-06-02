@@ -24,13 +24,7 @@ project "axo"
     includedirs { "vendor/sdl/include" }
     libdirs { "vendor/sdl/lib" }
 
-    postbuildcommands {
-      "{COPYFILE} ../vendor/sdl/lib/SDL3.dll %{cfg.targetdir}",
-      "{COPYFILE} ../vendor/angle/lib/d3dcompiler_47.dll %{cfg.targetdir}",
-      "{COPYFILE} ../vendor/angle/lib/libEGL.dll %{cfg.targetdir}",
-      "{COPYFILE} ../vendor/angle/lib/libGLESv1_CM.dll %{cfg.targetdir}",
-      "{COPYFILE} ../vendor/angle/lib/libGLESv2.dll %{cfg.targetdir}",
-    }
+    postbuildcommands { "{COPYFILE} ../vendor/sdl/lib/SDL3.dll %{cfg.targetdir}" }
 
   filter "configurations:debug"
     defines { "DEBUG" }
