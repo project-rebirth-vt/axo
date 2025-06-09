@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=axo
+Exec=axo
+Comment=tiny lua framework ≽(• O •)≼
+Icon=axo
+Categories=Development;
+Terminal=false
