@@ -2,7 +2,9 @@ workspace "axo"
   configurations { "debug", "release" }
   architecture "x86_64"
   location "build"
+  startproject "axo"
 
+  flags { "multiprocessorcompile" }
   warnings "extra"
 
 project "axo"
@@ -17,6 +19,10 @@ project "axo"
   includedirs { "vendor/sdl/include", "vendor/glad/include" }
   libdirs { "vendor/sdl/lib" }
   links { "SDL3" }
+
+  filter "system:windows"
+    files { "assets/res.rc" }
+    postbuildcommands { "{COPYFILE} ../vendor/sdl/lib/SDL3.dll %{cfg.targetdir}" }
 
   filter "system:linux"
     postbuildcommands {
