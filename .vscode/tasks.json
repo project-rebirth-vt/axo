@@ -5,7 +5,12 @@
       "label": "generate project",
       "type": "shell",
       "command": "premake5",
-      "args": ["vs2022"],
+      "windows": {
+        "args": ["vs2022"]
+      },
+      "linux": {
+        "args": ["gmake"]
+      },
       "group": {
         "kind": "build"
       }
@@ -13,13 +18,20 @@
     {
       "label": "build debug",
       "type": "shell",
-      "command": "msbuild",
-      "args": ["build/axo.sln", "/p:configuration=debug"],
+      "windows": {
+        "command": "msbuild",
+        "args": ["build/axo.sln", "/p:configuration=debug"],
+        "problemMatcher": ["$msCompile"]
+      },
+      "linux": {
+        "command": "make",
+        "args": ["-C", "build", "config=debug"],
+        "problemMatcher": ["$gcc"]
+      },
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": "$msCompile",
       "presentation": {
         "clear": true
       }
@@ -27,12 +39,19 @@
     {
       "label": "build release",
       "type": "shell",
-      "command": "msbuild",
-      "args": ["build/axo.sln", "/p:configuration=release"],
+      "windows": {
+        "command": "msbuild",
+        "args": ["build/axo.sln", "/p:configuration=release"],
+        "problemMatcher": ["$msCompile"]
+      },
+      "linux": {
+        "command": "make",
+        "args": ["-C", "build", "config=release"],
+        "problemMatcher": ["$gcc"]
+      },
       "group": {
         "kind": "build"
       },
-      "problemMatcher": "$msCompile",
       "presentation": {
         "clear": true
       }
@@ -40,7 +59,12 @@
     {
       "label": "run",
       "type": "shell",
-      "command": "build/bin/debug/axo.exe",
+      "windows": {
+        "command": "build/bin/debug/axo.exe"
+      },
+      "linux": {
+        "command": "build/bin/debug/axo.AppImage"
+      },
       "group": {
         "kind": "test",
         "isDefault": true
