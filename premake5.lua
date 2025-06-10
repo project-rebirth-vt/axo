@@ -5,24 +5,51 @@ workspace "axo"
   startproject "axo"
 
   flags { "multiprocessorcompile" }
-  warnings "extra"
+
+project "lua"
+  language "c"
+  cdialect "c17"
+
+  targetdir "%{wks.location}/lua/bin/%{cfg.buildcfg}"
+  objdir "%{wks.location}/lua/obj/%{cfg.buildcfg}"
+
+  files { "vendor/lua/*.h", "vendor/lua/*.c" }
+  includedirs { "vendor/lua" }
+
+  filter "system:windows"
+    kind "sharedlib"
+    defines { "LUA_BUILD_AS_DLL" }
+    targetname "lua54"
+
+  filter "system:linux"
+    kind "staticlib"
+
+  filter "configurations:debug"
+    defines { "DEBUG" }
+    symbols "on"
+
+  filter "configurations:release"
+    defines { "NDEBUG" }
+    optimize "on"
 
 project "axo"
   kind "consoleapp"
   language "c"
   cdialect "c17"
+  warnings "extra"
 
   targetdir "%{wks.location}/bin/%{cfg.buildcfg}"
   objdir "%{wks.location}/obj/%{cfg.buildcfg}"
 
   files { "src/**.h", "src/**.c" }
-  includedirs { "vendor/sdl/include", "vendor/glad/include" }
+  includedirs { "vendor/sdl/include", "vendor/glad/include", "vendor/lua" }
   libdirs { "vendor/sdl/lib" }
-  links { "SDL3" }
+  links { "SDL3", "lua" }
 
   filter "system:windows"
     files { "assets/res.rc" }
     postbuildcommands { "{COPYFILE} ../vendor/sdl/lib/SDL3.dll %{cfg.targetdir}" }
+    postbuildcommands { "{COPYFILE} lua/bin/%{cfg.buildcfg}/lua54.dll %{cfg.targetdir}" }
 
   filter "system:linux"
     postbuildcommands {
