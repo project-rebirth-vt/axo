@@ -32,6 +32,39 @@ project "lua"
     defines { "NDEBUG" }
     optimize "on"
 
+project "physfs"
+  kind "staticlib"
+  language "c"
+  cdialect "c17"
+
+  targetdir "%{wks.location}/physfs/bin/%{cfg.buildcfg}"
+  objdir "%{wks.location}/physfs/obj/%{cfg.buildcfg}"
+
+  files { "vendor/physfs/*.h", "vendor/physfs/*.c" }
+  includedirs { "vendor/physfs" }
+
+  defines {
+    "PHYSFS_SUPPORTS_7Z=0",
+    "PHYSFS_SUPPORTS_GRP=0",
+    "PHYSFS_SUPPORTS_WAD=0",
+    "PHYSFS_SUPPORTS_CSM=0",
+    "PHYSFS_SUPPORTS_HOG=0",
+    "PHYSFS_SUPPORTS_MVL=0",
+    "PHYSFS_SUPPORTS_QPAK=0",
+    "PHYSFS_SUPPORTS_SLB=0",
+    "PHYSFS_SUPPORTS_ISO9660=0",
+    "PHYSFS_SUPPORTS_VDF=0",
+    "PHYSFS_SUPPORTS_LECARCHIVES=0",
+  }
+
+  filter "configurations:debug"
+    defines { "DEBUG" }
+    symbols "on"
+
+  filter "configurations:release"
+    defines { "NDEBUG" }
+    optimize "on"
+
 project "axo"
   kind "consoleapp"
   language "c"
@@ -42,9 +75,9 @@ project "axo"
   objdir "%{wks.location}/obj/%{cfg.buildcfg}"
 
   files { "src/**.h", "src/**.c" }
-  includedirs { "vendor/sdl/include", "vendor/glad/include", "vendor/lua" }
+  includedirs { "vendor/sdl/include", "vendor/glad/include", "vendor/lua", "vendor/physfs" }
   libdirs { "vendor/sdl/lib" }
-  links { "SDL3", "lua" }
+  links { "SDL3", "lua", "physfs" }
 
   filter "system:windows"
     files { "assets/res.rc" }
