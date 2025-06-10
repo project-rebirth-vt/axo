@@ -82,6 +82,7 @@ project "axo"
     "vendor/lua",
     "vendor/physfs",
     "vendor/linmath",
+    "vendor/stb",
   }
 
   libdirs { "vendor/sdl/lib" }
