@@ -75,7 +75,15 @@ project "axo"
   objdir "%{wks.location}/obj/%{cfg.buildcfg}"
 
   files { "src/**.h", "src/**.c" }
-  includedirs { "vendor/sdl/include", "vendor/glad/include", "vendor/lua", "vendor/physfs" }
+
+  includedirs {
+    "vendor/sdl/include",
+    "vendor/glad/include",
+    "vendor/lua",
+    "vendor/physfs",
+    "vendor/linmath",
+  }
+
   libdirs { "vendor/sdl/lib" }
   links { "SDL3", "lua", "physfs" }
 
