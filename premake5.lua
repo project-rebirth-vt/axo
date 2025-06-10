@@ -52,6 +52,9 @@ project "axo"
     postbuildcommands { "{COPYFILE} lua/bin/%{cfg.buildcfg}/lua54.dll %{cfg.targetdir}" }
 
   filter "system:linux"
+    links { "m" }
+    linkoptions { "-rdynamic" }
+
     postbuildcommands {
       "{COPYDIR} ../assets/appdir %{cfg.targetdir}",
       "{MKDIR} %{cfg.targetdir}/appdir/usr/bin",
