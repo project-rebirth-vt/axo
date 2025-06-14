@@ -77,6 +77,7 @@ project "axo"
   files { "src/**.h", "src/**.c" }
 
   includedirs {
+    "build",
     "vendor/sdl/include",
     "vendor/glad/include",
     "vendor/lua",
@@ -90,12 +91,14 @@ project "axo"
 
   filter "system:windows"
     files { "assets/res.rc" }
+    prebuildcommands { "python ../scripts/embed.py ../src/boot.lua boot.h"}
     postbuildcommands { "{COPYFILE} ../vendor/sdl/lib/SDL3.dll %{cfg.targetdir}" }
     postbuildcommands { "{COPYFILE} lua/bin/%{cfg.buildcfg}/lua54.dll %{cfg.targetdir}" }
 
   filter "system:linux"
     links { "m" }
     linkoptions { "-rdynamic" }
+    prebuildcommands { "python3 ../scripts/embed.py ../src/boot.lua boot.h"}
 
     postbuildcommands {
       "{COPYDIR} ../assets/appdir %{cfg.targetdir}",

@@ -20,6 +20,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char** argv) {
 
   luaL_openlibs(L);
 
+  luax_preload(L, luaopen_axo, "axo");
+
   lua_newtable(L);
 
   if (argc > 0) {
@@ -36,6 +38,15 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char** argv) {
   }
 
   lua_setglobal(L, "arg");
+
+  lua_getglobal(L, "require");
+  lua_pushstring(L, "axo");
+  lua_call(L, 1, 1);
+  lua_pop(L, 1);
+
+  lua_getglobal(L, "require");
+  lua_pushstring(L, "axo.boot");
+  lua_call(L, 1, 1);
 
   return SDL_APP_CONTINUE;
 }
