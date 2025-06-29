@@ -4,6 +4,7 @@
 
 static const luaL_Reg modules[] = {
   { "axo.boot", luaopen_axo_boot },
+  { "axo.filesystem", luaopen_axo_filesystem },
   { NULL, NULL },
 };
 

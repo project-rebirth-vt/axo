@@ -77,6 +77,7 @@ project "axo"
   files { "src/**.h", "src/**.c" }
 
   includedirs {
+    "src",
     "build",
     "vendor/sdl/include",
     "vendor/glad/include",

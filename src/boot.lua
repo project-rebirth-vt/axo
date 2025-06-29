@@ -1,5 +1,7 @@
 function axo.boot()
   print("booting axo...")
+
+  require("axo.filesystem")
 end
 
 function axo.init()
