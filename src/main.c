@@ -6,7 +6,19 @@
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char** argv) {
   if (argc > 1 && SDL_strcmp(argv[1], "--version") == 0) {
-    SDL_Log("axo engine: %d.%d.%d", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_MICRO_VERSION);
+    SDL_Log("axo engine: %d.%d.%d %s", AXO_VERSION_MAJOR, AXO_VERSION_MINOR, AXO_VERSION_PATCH, AXO_VERSION_CODENAME);
+    return SDL_APP_SUCCESS;
+  }
+
+  if (argc > 1 && SDL_strcmp(argv[1], "--help") == 0) {
+    SDL_Log(
+        "tiny lua framework ≽(• O •)≼\n"
+        "https://axoengine.org\n"
+        "\n"
+        "usage:\n"
+        "  axo --version                  prints axo version and quits\n"
+        "  axo --help                     prints this message and quits\n"
+        "  axo path/to/gamedir            runs the game from the given directory which contains a main.lua file\n");
     return SDL_APP_SUCCESS;
   }
 
@@ -19,7 +31,6 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char** argv) {
   *appstate = L;
 
   luaL_openlibs(L);
-
   luax_preload(L, luaopen_axo, "axo");
 
   lua_newtable(L);
@@ -58,11 +69,31 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 }
 
 SDL_AppResult SDL_AppIterate(void* appstate) {
-  (void)appstate;
-  return SDL_APP_SUCCESS;
+  lua_State* L = (lua_State*)appstate;
+
+  int nres;
+  if (lua_resume(L, NULL, 0, &nres) == LUA_YIELD) {
+    lua_pop(L, nres);
+    return SDL_APP_CONTINUE;
+  } else {
+    int retval = 0;
+    if (lua_isnumber(L, -1)) {
+      retval = lua_tointeger(L, -1);
+    }
+
+    if (retval != 0) {
+      return SDL_APP_FAILURE;
+    } else {
+      return SDL_APP_SUCCESS;
+    }
+  }
 }
 
 void SDL_AppQuit(void* appstate, SDL_AppResult result) {
-  (void)appstate;
   (void)result;
+
+  lua_State* L = (lua_State*)appstate;
+  if (L) {
+    lua_close(L);
+  }
 }
