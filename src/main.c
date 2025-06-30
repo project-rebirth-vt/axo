@@ -91,6 +91,8 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
 void SDL_AppQuit(void* appstate, SDL_AppResult result) {
   (void)result;
 
+  api_cleanup();
+
   lua_State* L = (lua_State*)appstate;
   if (L) {
     lua_close(L);

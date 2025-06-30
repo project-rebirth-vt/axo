@@ -14,6 +14,7 @@ int luaopen_axo_filesystem(lua_State* L) {
   lua_setfield(L, -2, "filesystem");
 
   luax_assert(L, filesystem_open());
+  api_register_deinit(filesystem_close);
 
   return 1;
 }

@@ -12,6 +12,12 @@
 #define AXO_VERSION_PATCH 0
 #define AXO_VERSION_CODENAME "best friends"
 
+// cleanup logic
+typedef void (*deinit_func)(void);
+
+void api_register_deinit(deinit_func f);
+void api_cleanup(void);
+
 int luaopen_axo(lua_State* L);
 int luaopen_axo_boot(lua_State* L);
 int luaopen_axo_filesystem(lua_State* L);
