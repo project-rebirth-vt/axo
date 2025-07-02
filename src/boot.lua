@@ -17,6 +17,9 @@ function axo.boot()
   axo.filesystem.init(arg0)
 
   axo.filesystem.set_identity("test")
+  axo.filesystem.set_source("test")
+
+  require("main")
 end
 
 function axo.init()
