@@ -29,5 +29,6 @@ int luaopen_axo_filesystem(lua_State* L);
 
 void luax_preload(lua_State* L, lua_CFunction f, const char* name);
 void luax_insistglobal(lua_State* L, const char* k);
+bool luax_optboolean(lua_State* L, int idx, bool b);
 
 #endif

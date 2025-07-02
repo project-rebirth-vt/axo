@@ -37,3 +37,9 @@ void luax_insistglobal(lua_State* L, const char* k) {
     lua_setglobal(L, k);
   }
 }
+
+bool luax_optboolean(lua_State* L, int idx, bool b) {
+  if (lua_isboolean(L, idx) == 1)
+    return (lua_toboolean(L, idx) == 1 ? true : false);
+  return b;
+}

@@ -1,7 +1,22 @@
+local function get_low_arg(a)
+  local m = math.huge
+  for k,v in pairs(a) do
+    if k < m then
+      m = k
+    end
+  end
+  return a[m], m
+end
+
 function axo.boot()
   print("booting axo...")
 
   require("axo.filesystem")
+
+  local arg0 = get_low_arg(arg)
+  axo.filesystem.init(arg0)
+
+  axo.filesystem.set_identity("test")
 end
 
 function axo.init()
