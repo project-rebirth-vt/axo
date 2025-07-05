@@ -60,7 +60,7 @@
       "label": "run",
       "type": "shell",
       "windows": {
-        "command": "axo.exe"
+        "command": "./axo.exe"
       },
       "linux": {
         "command": "./axo.AppImage"

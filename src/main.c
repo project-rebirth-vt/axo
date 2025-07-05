@@ -77,7 +77,7 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
   } else {
     int retval = 0;
     if (lua_isnumber(L, -1)) {
-      retval = lua_tointeger(L, -1);
+      retval = (int)lua_tointeger(L, -1);
     }
 
     if (retval != 0) {

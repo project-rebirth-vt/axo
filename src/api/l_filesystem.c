@@ -81,7 +81,7 @@ int luaopen_axo_filesystem(lua_State* L) {
   lua_getglobal(L, "package");
   lua_getfield(L, -1, "searchers");
 
-  int n = lua_rawlen(L, -1);
+  int n = (int)lua_rawlen(L, -1);
   for (int i = n + 1; i > 1; i--) {
     lua_rawgeti(L, -1, i - 1);
     lua_rawseti(L, -2, i);
