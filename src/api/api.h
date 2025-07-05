@@ -21,6 +21,7 @@ void api_cleanup(void);
 int luaopen_axo(lua_State* L);
 int luaopen_axo_boot(lua_State* L);
 int luaopen_axo_filesystem(lua_State* L);
+int luaopen_axo_event(lua_State* L);
 
 #define luax_assert(L, c)          \
   if (!(c)) {                      \

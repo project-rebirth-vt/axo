@@ -60,10 +60,13 @@
       "label": "run",
       "type": "shell",
       "windows": {
-        "command": "build/bin/debug/axo.exe"
+        "command": "axo.exe"
       },
       "linux": {
-        "command": "build/bin/debug/axo.AppImage"
+        "command": "./axo.AppImage"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/build/bin/debug"
       },
       "group": {
         "kind": "test",

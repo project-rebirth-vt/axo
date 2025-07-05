@@ -24,14 +24,43 @@ end
 
 function axo.init()
   print("initializing axo...")
+
+  require("axo.event")
 end
 
 function axo.run()
   print("running axo...")
 
+  if axo.load then axo.load() end
+
+  if axo.timer then axo.timer.step() end
+
   return function()
-    print("main loop running...")
-    return 0
+    if axo.event then
+      axo.event.pump()
+      for name, a,b,c,d,e,f,g,h in axo.event.poll() do
+        if name == "quit" then
+          if c or not axo.quit or not axo.quit() then
+            return a or 0
+          end
+        end
+        axo.handlers[name](a,b,c,d,e,f,g,h)
+      end
+    end
+
+    local dt = axo.timer and axo.timer.step() or 0
+
+    if axo.update then axo.update(dt) end
+
+    if axo.graphics and axo.graphics.isActive() then
+      axo.graphics.clear(axo.graphics.getBackgroundColor())
+
+      if axo.draw then axo.draw() end
+
+      axo.graphics.present()
+    end
+
+    if axo.timer then axo.timer.sleep(0.001) end
   end
 end
 
