@@ -38,13 +38,20 @@ function axo.run()
   return function()
     if axo.event then
       axo.event.pump()
-      for name, a,b,c,d,e,f,g,h in axo.event.poll() do
+
+      while true do
+        local name, a,b,c,d,e,f = axo.event.poll()
+        if not name then break end
+
         if name == "quit" then
-          if c or not axo.quit or not axo.quit() then
+          if not axo.quit or not axo.quit() then
             return a or 0
           end
         end
-        axo.handlers[name](a,b,c,d,e,f,g,h)
+
+        if axo.handlers[name] then
+          axo.handlers[name](a,b,c,d,e,f)
+        end
       end
     end
 

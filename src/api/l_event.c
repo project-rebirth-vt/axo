@@ -2,7 +2,30 @@
 
 #include "mods/event.h"
 
+static int l_event_pump(lua_State* L) {
+  (void)L;
+  event_pump();
+  return 0;
+}
+
+static int l_event_poll(lua_State* L) {
+  Event event;
+  if (event_poll(&event)) {
+    switch (event.type) {
+      case EVENT_QUIT:
+        lua_pushstring(L, "quit");
+        return 1;
+      default:
+        lua_pushnil(L);
+        return 1;
+    }
+  }
+  return 0;
+}
+
 static const luaL_Reg functions[] = {
+  { "pump", l_event_pump },
+  { "poll", l_event_poll },
   { NULL, NULL },
 };
 
